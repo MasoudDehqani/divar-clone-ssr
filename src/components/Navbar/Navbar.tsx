@@ -1,26 +1,44 @@
 import React, { useState } from 'react'
-import { AppBar, Toolbar, List, ListItem, Button, Box, Container, Paper, Avatar } from "@material-ui/core"
-import { LocationOnRounded } from "@material-ui/icons"
-// import makeStyles from "@material-ui/core/styles/makeStyles"
-import image2 from  './images/Capture2.JPG';
-import Hidden from "@material-ui/core/Hidden"
-import MenuIcon from "@material-ui/icons/Menu"
-// import Menu from "@material-ui/core/Menu"
-import MenuItem from '@material-ui/core/MenuItem';
-import Link from "@material-ui/core/Link"
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import MobileMenu from './MobileMenu';
 import DesktopNav from './DesktopNav';
 import DivarLogo from './DivarLogo';
 import CitySelectionButton from './CitySelectionButton';
 import CitySelectionModal from '../CitySelection/CitySelectionModal';
+import { Layout, Menu, Button } from 'antd';
+import { MenuOutlined } from '@ant-design/icons';
+import styles from "./styles.module.scss"
+import NavbarMenu from './NavbarMenu';
+import SubmitAdButton from './SubmitAdButton';
 
 function Navbar() {
 
+  const { Header, Content, Sider } = Layout;
+
   const [modalOpen, setModalOpen] = useState(false)
 
+  const citySelectionHandle = () => {
+
+  }
+
   return (
-    <Container>
+    <Header className={`${styles.header} header`}>
+      <div>
+        <DivarLogo />
+        <CitySelectionButton onClick={citySelectionHandle} />
+      </div>
+
+      <div className={styles.buttonMenuContainer}>
+        <NavbarMenu>
+          <SubmitAdButton />
+        </NavbarMenu>
+      </div>
+    </Header>
+  )
+}
+
+export default Navbar
+
+{/* <Container>
       <CitySelectionModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
       <AppBar style={{backgroundColor: 'white', boxShadow: '0 0.1px 10px 0.2px rgba(0,0,0,0.1)', borderBottom: '1px solid rgba(0,0,0,0.1)'}}>
       
@@ -48,8 +66,4 @@ function Navbar() {
           
         </Toolbar>
       </AppBar>
-    </Container>
-  )
-}
-
-export default Navbar
+    </Container> */}

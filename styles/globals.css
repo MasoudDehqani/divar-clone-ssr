@@ -74,6 +74,7 @@ a {
 
 * {
   box-sizing: border-box;
+  font-family: "Vazir", sans-serif
 }
 
 #components-layout-demo-top-side-2 .logo {
