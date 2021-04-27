@@ -8,7 +8,7 @@ import { GetServerSideProps } from 'next'
 export const DivarContext = createContext<ContextType>(initialContextValues)
 export const useDivarContext = () => useContext(DivarContext)
 
-const DivarContextProvider = ({ children } : { children: React.ReactChild }) => {
+const DivarContextProvider = ({ children }) => {
 
   const [URL, dispatch] = useReducer(UrlReducer, "")
 
@@ -18,24 +18,36 @@ const DivarContextProvider = ({ children } : { children: React.ReactChild }) => 
   let cityLocalStorage: string
   if (typeof window !== "undefined") {
     cityLocalStorage = localStorage.getItem("city")
-    if (!cityLocalStorage && !!city) localStorage.setItem("city", cityString)
+    if (!cityLocalStorage && !!cityString) localStorage.setItem("city", cityString)
   }
 
-  const { data, setData, status, routes, districts, completeURL } = usePathname(initialContextValues.baseUrl, pathname.slice(2), cityString)
-  
-  // console.log(data);
+  // const { data, setData, status, routes, districts, completeURL } = usePathname(initialContextValues.baseUrl, pathname.slice(2), cityString)
+
+
   
   //@ts-ignore
-  return <DivarContext.Provider value={{ baseUrl: initialContextValues.baseUrl, city }}>{children}</DivarContext.Provider>
+  return <DivarContext.Provider value={{ baseUrl: initialContextValues.baseUrl, city: cityLocalStorage, routes: initialContextValues.routes }}>{children}</DivarContext.Provider>
 }
 
 export const getServerSideProps : GetServerSideProps = async ctx => {
 
+  // const { asPath: pathname, query: {city} } = useRouter()
+  // const cityString = city as string
+  // // const { pathname } = useLocation()
+  // let cityLocalStorage: string
+  // if (typeof window !== "undefined") {
+  //   cityLocalStorage = localStorage.getItem("city")
+  //   if (!cityLocalStorage && !!city) localStorage.setItem("city", cityString)
+  // }
 
+  // const { data, setData, status, routes, districts, completeURL } = usePathname(initialContextValues.baseUrl, pathname.slice(2), cityString)
+  
+  const res = await (await fetch(`https://api.bourseon.com/posts`)).json()
+  console.log(res)
 
   return {
     props: {
-
+      res
     }
   }
 }

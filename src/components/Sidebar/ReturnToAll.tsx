@@ -1,23 +1,19 @@
 import React, { useContext } from "react";
 import SideItem from "./SideItem";
 import { useDivarContext } from "../context/divarContext";
-import ArrowRight from "@material-ui/icons/ArrowRightAlt";
-import { useParams } from "react-router";
+import { ArrowRightOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
-const ReturnToAll = () => {
-  const context = useDivarContext();
-  const {city} = useParams<{city: string}>()
+const ReturnToAll = ({route, setRoute}) => {
+
+  const {city} = useDivarContext();
+  // const {city} = useRouter().query
 
   return (
     <SideItem
-      onClick={() => {
-        context.routes.topLevel = "";
-        context.routes.level2 = "";
-        context.routes.level3 = "";
-      }}
-      linkToGo={`/${city}`}
+      linkToGo={`/s/${city}`}
       text="همه آگهی‌ها"
-      Icon={ArrowRight}
+      Icon={ArrowRightOutlined}
     />
   );
 };

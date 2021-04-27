@@ -1,8 +1,6 @@
 import React from 'react';
-import Box from "@material-ui/core/Box"
-import Link from "@material-ui/core/Link"
-import { NavLink, useParams } from "react-router-dom"
-import { ListItem } from '@material-ui/core';
+import { List } from "antd";
+import Link from 'next/link';
 
 interface PropsType {
   Icon?: React.ElementType; 
@@ -16,14 +14,16 @@ interface PropsType {
 const SideItem = ( { Icon, text, linkToGo, actStyle, onClick, style } : PropsType ) => {
 
   return (
-    <ListItem>
-      <Link onClick={onClick} component={NavLink} to={`${linkToGo}`} underline="none" color="textSecondary" activeStyle={actStyle} style={style} >
-        <Box display="flex" width="100%">
-          {Icon && <Icon />}
-          <span style={{marginRight: '10px'}}>{text}</span>
-        </Box>
-      </Link>
-    </ListItem>
+    <Link href={linkToGo}>
+      <a>
+        <List.Item style={style} onClick={onClick}>
+          <div style={{display: "flex", width: "100%"}}>
+            {Icon && <Icon />}
+            <span style={{marginRight: '10px'}}>{text}</span>
+          </div>
+        </List.Item>
+      </a>
+    </Link>
   )
 }
 

@@ -60,13 +60,32 @@
 
 .menuItem {
   font-weight: 500;
+  padding: 11px 16px;
 }
 
 .menu {
+  width: 162px;
+  top: 55px !important;
   
+  ul {
+    padding: 0;
+  }
+}
+
+.navMenuContainer {
+  @media (max-width: 60rem) {
+    display: none;
+  }
 }
 
 .menuIcon {
   margin-right: 20px;
   font-size: 16px;
+
+}
+
+.dropdown {
+  @media (min-width: 60rem) {
+    display: none;
+  }
 }

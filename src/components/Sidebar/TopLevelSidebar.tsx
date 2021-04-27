@@ -1,22 +1,34 @@
 import React from "react";
-import { List } from "@material-ui/core";
+import { List } from "antd"
 import SideItem from "./SideItem";
 import { useDivarContext } from "../context/divarContext";
-import { topLevelRoutesTitlesIcons } from "./dataStructured";
+import { allCategories, topLevelRoutesTitlesIcons } from "./dataStructured";
 import Level2Sidebar from "./Level2Sidebar";
 import ReturnToAll from "./ReturnToAll";
-import { useParams } from "react-router";
+import { useRouter } from "next/router"
+// import { useParams } from "react-router";
 
 const TopLevelSidebar = () => {
 
   const { routes } = useDivarContext();
-  const {city} = useParams<{city: string}>()
+  // const {city} = useParams<{city: string}>()
+  const {city, category} = useRouter().query
+  console.log(city)
   
 
   return (
     <List>
-      {routes.topLevel && <ReturnToAll />}
-      {topLevelRoutesTitlesIcons.map(({ route, text, icon, subCategories }, index) => {
+      {allCategories.children.map(({ name, icon, id, slug, children }, index) =>
+        <>
+          <SideItem
+            // onClick={onClick}
+            linkToGo={`/s/${city}/${slug}`}
+            text={name}
+            Icon={icon}
+          />
+        </>
+      )}
+      {/* {topLevelRoutesTitlesIcons.map(({ route, text, icon, subCategories }, index) => {
         if (route === routes.topLevel) {
           return (
             <div key={route}>
@@ -25,8 +37,9 @@ const TopLevelSidebar = () => {
                   routes.topLevel = route;
                   routes.level2 = "";
                   routes.level3 = "";
+                  console.log("123")
                 }}
-                linkToGo={`/${city}/${route}`}
+                linkToGo={`/s/${city}/${route}`}
                 text={text}
                 Icon={icon}
                 style={{ color: routes.topLevel === route ? "black" : "" }}
@@ -46,14 +59,14 @@ const TopLevelSidebar = () => {
                 routes.level2 = "";
                 routes.level3 = "";
               }}
-              linkToGo={`/${city}/${route}`}
+              linkToGo={`/s/${city}/${route}`}
               Icon={icon}
               text={text}
             />
           );
         }
         return undefined
-      })}
+      })} */}
       
     </List>
   );

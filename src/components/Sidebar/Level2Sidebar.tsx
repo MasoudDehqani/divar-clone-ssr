@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { Box, List } from "@material-ui/core";
+import { List } from "antd";
 import { useDivarContext } from "../context/divarContext";
 import Level3Sidebar from "./Level3Sidebar";
 import SideItem from "./SideItem";
-import { useParams } from "react-router";
+import { useRouter } from "next/router";
 
 interface SubCategoriesType {
   subCategoryRoute: string;
@@ -11,14 +11,38 @@ interface SubCategoriesType {
   level2SubCategories: any
 }
 
-const Level2Sidebar = ({ subCategories } : { subCategories?: SubCategoriesType[] }) => {
+const Level2Sidebar = ({ subCategories, children, route, setRoute, parentSlug } : any) => {
 
   const { routes } = useDivarContext();
-  const {city} = useParams<{city: string}>()  
+  // const {city} = useParams<{city: string}>()
+  const {category} = useRouter().query
+  const {city} = useDivarContext(); 
 
   return (
-    <List>
-      <Box ml={7}>
+    <List style={{marginRight: "35px"}}>
+      {subCategories.map(({ name, slug, children, parent }, index) =>
+        <>
+          {(category === parent || category === slug || route.L2 === slug) && 
+            <div key={slug}>
+              <SideItem
+                onClick={() => setRoute(prev => ({...prev, L2: slug}))}
+                linkToGo={`/s/${city}/${slug}`}
+                text={name}
+                style={{fontWeight: route.L2 === slug ? "bold" : ""}}
+              />
+            </div>
+          }
+          <Level3Sidebar route={route} setRoute={setRoute} parentSlug={slug} level2Subcategories={children} />
+        </>
+      )}
+    </List>
+  );
+};
+
+export default Level2Sidebar;
+
+
+{/* <div>
         {//@ts-ignore
         subCategories.map(({ subCategoryRoute, subCategoryText, level2SubCategories }, index) => {
           if (subCategoryRoute === routes.level2) {
@@ -26,7 +50,7 @@ const Level2Sidebar = ({ subCategories } : { subCategories?: SubCategoriesType[]
               <div key={subCategoryRoute}>
                 <SideItem
                   onClick={() => { routes.level2 = subCategoryRoute }}
-                  linkToGo={`/${city}/${subCategoryRoute}`}
+                  linkToGo={`/s/${city}/${subCategoryRoute}`}
                   text={subCategoryText}
                   style={{ color: routes.level2 === subCategoryRoute ? "black" : "" }}
                 />
@@ -42,7 +66,7 @@ const Level2Sidebar = ({ subCategories } : { subCategories?: SubCategoriesType[]
               <SideItem
                 key={subCategoryRoute}
                 onClick={() => { routes.level2 = subCategoryRoute }}
-                linkToGo={`/${city}/${subCategoryRoute}`}
+                linkToGo={`/s/${city}/${subCategoryRoute}`}
                 text={subCategoryText}
               />
             );
@@ -50,9 +74,4 @@ const Level2Sidebar = ({ subCategories } : { subCategories?: SubCategoriesType[]
           return undefined
         }
       )}
-    </Box>
-  </List>
-  );
-};
-
-export default Level2Sidebar;
+    </div> */}

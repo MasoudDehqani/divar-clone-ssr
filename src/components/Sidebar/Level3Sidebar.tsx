@@ -1,33 +1,35 @@
 import React from "react";
 import { useDivarContext } from "../context/divarContext";
-import { Box } from "@material-ui/core";
 import SideItem from "./SideItem";
-import { useParams } from "react-router";
+import { useRouter } from "next/router";
 
 interface PropsType {
   subcategoryRoute: string;
   subcategoryText: string
 }
 
-const Level3Sidebar = ({level2Subcategories} : {level2Subcategories?: PropsType[]}) => {
+const Level3Sidebar = ({level2Subcategories, parentSlug, route, setRoute} : any) => {
   const { routes } = useDivarContext();
-  const {city} = useParams<{city: string}>()
+  // const {city} = useParams<{city: string}>()
+  const {category} = useRouter().query
+  const {city} = useDivarContext();
+
 
   return (
-    <Box ml={4} >
-      {//@ts-ignore
-      level2Subcategories.map(({ subcategoryRoute, subcategoryText }) => {
-        return (
+    <div style={{marginRight: "23px"}}>
+      {(category === parentSlug || route.L2 === parentSlug) &&
+      level2Subcategories.map(({ name, slug, parent }) =>
+        <>
+          { 
           <SideItem
-            key={subcategoryRoute}
-            onClick={() => { routes.level3 = subcategoryRoute }}
-            linkToGo={`/${city}/${subcategoryRoute}`}
-            text={subcategoryText}
-            actStyle={{ color: "red" }}
-          />
-        );
-      })}
-    </Box>
+            key={slug}
+            linkToGo={`/s/${city}/${slug}`}
+            text={name}
+            style={{color: category === slug ? "red" : "", borderRight: category === slug ? "1px solid red" : "1px solid rgba(0,0,0,0.3)" }}
+          />}
+        </>
+      )}
+    </div>
   );
 };
 

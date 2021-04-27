@@ -18,6 +18,7 @@ const usePathname = (baseUrl: string, pathname: string, city: string | null) => 
   const fetchSetData = useCallback(async () => {
 
     const response = await fetchHandle(completeURL)
+    console.log(response)
 
     if (!response) {
       setStatus(false)
