@@ -11,7 +11,8 @@ interface PropsType {
   onClick?: (React.MouseEventHandler<HTMLAnchorElement> & React.MouseEventHandler<HTMLSpanElement>) | undefined
 }
 
-const SideItem = ( { Icon, text, linkToGo, actStyle, onClick, style } : PropsType ) => {
+const SideItem = ( { Icon, text, linkToGo, actStyle, onClick, style } : any ) => {
+
 
   return (
     <Link href={linkToGo}>

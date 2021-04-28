@@ -8,16 +8,14 @@ interface PropsType {
   subcategoryText: string
 }
 
-const Level3Sidebar = ({level2Subcategories, parentSlug, route, setRoute} : any) => {
-  const { routes } = useDivarContext();
-  // const {city} = useParams<{city: string}>()
+const Level3Sidebar = ({level2Subcategories, parentSlug, routeHistory} : any) => {
+
   const {category} = useRouter().query
   const {city} = useDivarContext();
 
-
   return (
     <div style={{marginRight: "23px"}}>
-      {(category === parentSlug || route.L2 === parentSlug) &&
+      {(category === parentSlug || routeHistory.L2 === parentSlug) &&
       level2Subcategories.map(({ name, slug, parent }) =>
         <>
           { 

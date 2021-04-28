@@ -11,28 +11,39 @@ interface SubCategoriesType {
   level2SubCategories: any
 }
 
-const Level2Sidebar = ({ subCategories, children, route, setRoute, parentSlug } : any) => {
+const Level2Sidebar = ({ subCategories, routeHistory } : any) => {
 
   const { routes } = useDivarContext();
   // const {city} = useParams<{city: string}>()
   const {category} = useRouter().query
-  const {city} = useDivarContext(); 
+  const {city} = useDivarContext();
+
+  console.log(category)
+
+  function routeHistoryHandle(slug) {
+    routeHistory.L2 = slug
+  }
+
+  // routeHistory.L2 = category
+
+  // routeHistory.L2 = category
 
   return (
     <List style={{marginRight: "35px"}}>
       {subCategories.map(({ name, slug, children, parent }, index) =>
         <>
-          {(category === parent || category === slug || route.L2 === slug) && 
+          {(category === parent || category === slug || routeHistory.L2 === slug) && 
             <div key={slug}>
               <SideItem
-                onClick={() => setRoute(prev => ({...prev, L2: slug}))}
+                onClick={() => routeHistory.L2 = slug}
                 linkToGo={`/s/${city}/${slug}`}
                 text={name}
-                style={{fontWeight: route.L2 === slug ? "bold" : ""}}
+                style={{fontWeight: routeHistory.L2 === slug ? "bold" : ""}}
+                // setRouteHistory={() => routeHistoryHandle(slug)}
               />
             </div>
           }
-          <Level3Sidebar route={route} setRoute={setRoute} parentSlug={slug} level2Subcategories={children} />
+          <Level3Sidebar parentSlug={slug} level2Subcategories={children} routeHistory={routeHistory} />
         </>
       )}
     </List>
