@@ -9,6 +9,8 @@ export default function Home({params}) {
   const {city} = useDivarContext()
   console.log(params)
 
+  
+
   // if (!city) {
   //   return <h1>انتخاب شهر</h1>
   // }
@@ -16,7 +18,7 @@ export default function Home({params}) {
   return (
     <Link href={`/s/${city}`}>
       <a>
-        <h1>Tehran</h1>
+        {/* <h1>Tehran</h1> */}
       </a>
     </Link>
   )

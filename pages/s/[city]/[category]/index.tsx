@@ -1,13 +1,19 @@
 import { GetServerSideProps } from 'next'
 import React from 'react'
-import { useDivarContext } from '../../../../src/components/context/divarContext'
-import { useRouteHistoryContext } from '../../../../src/components/context/RouteHistoryContextProvider'
-import breadCrumbsHandle from "../../../../src/components/outsourcing/breadCrumbsHandle"
+import { useDivarContext } from '~components/context/divarContext'
+import { useRouteHistoryContext } from '~components/context/RouteHistoryContextProvider'
+import breadCrumbsHandle from "~components/outsourcing/breadCrumbsHandle"
+import { allCategories } from '~components/Sidebar/dataStructured'
+import Level2Sidebar from '~components/Sidebar/Level2Sidebar'
+import ReturnToAll from '~components/Sidebar/ReturnToAll'
+import SideItem from '~components/Sidebar/SideItem'
 
 function Category({category, data}) {
 
   const routeHistory = useRouteHistoryContext()
   const {city} = useDivarContext()
+  const breadCrumbs = data.seo_details.bread_crumbs.filter(({url}) => url.includes("/")).map(({url}) => url.split("/")[1]).reverse()
+  console.log(breadCrumbs)
 
   console.log(data)
 
@@ -15,17 +21,37 @@ function Category({category, data}) {
   console.log(routeHistory)
 
   return (
-    <div>
-      {category}
+    <div style={{width: '260px', height: "fit-content", marginTop: "25px", position: "sticky", padding: "0 15px"}}>
+
+      <h3>دسته بندی‌ها</h3>
+
+      <ReturnToAll />
+
+      {allCategories.children.map(({ name, icon, id, slug, children }) =>
+        <>
+          {breadCrumbs[0] === slug &&
+            <>
+              <SideItem
+                key={id}
+                linkToGo={`/s/${city}/${slug}`}
+                text={name}
+                Icon={icon}
+              />
+              <Level2Sidebar breadCrumbs={breadCrumbs} subCategories={children} />
+            </>
+          }
+        </>
+        
+      )}
     </div>
   )
 }
 
 export const getServerSideProps : GetServerSideProps = async ctx => {
 
-  const { category } = ctx.params
-  const dataPromise = await fetch(`https://api.divar.ir/v8/web-search/tehran/${category}`)
-  const data = await dataPromise.json()
+  const { category, city } = ctx.params
+  const dataPromise = (await fetch(`https://api.divar.ir/v8/web-search/tehran/${category}`)).json()
+  const data = await dataPromise
 
 
   return {

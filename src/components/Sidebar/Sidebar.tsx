@@ -31,7 +31,7 @@ const Sidebar = () => {
 
       <h3>دسته بندی‌ها</h3>
 
-      {category && <ReturnToAll routeHistory={routeHistory} />}
+      {category && <ReturnToAll />}
 
       {allCategories.children.map(({ name, icon, id, slug, children }, index) =>
         <>

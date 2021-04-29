@@ -15,8 +15,12 @@ function MyApp({ Component, pageProps } : AppProps) {
   return (
     <DivarContextProvider>
       <ConfigProvider locale={faIR} direction="rtl">
-        <Component {...pageProps} />
-        <Divar />
+        <Layout>
+          <Navbar />
+          <Layout.Content>
+            <Component {...pageProps} />
+          </Layout.Content>
+        </Layout>
       </ConfigProvider>
     </DivarContextProvider>
   ) 
