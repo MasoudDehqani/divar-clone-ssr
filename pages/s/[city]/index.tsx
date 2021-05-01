@@ -1,12 +1,12 @@
-import { GetServerSideProps } from 'next'
 import React from 'react'
-import initialContextValues from "~components/context/initialContextValues"
+import { GetServerSideProps } from 'next'
 import { allCategories } from '~components/Sidebar/dataStructured'
 import SideItem from '~components/Sidebar/SideItem'
+import styles from "./styles.module.scss"
 
-const City = ({city, response}) => {
+const City = ({city}) => {
   return (
-    <div style={{width: '260px', height: "fit-content", marginTop: "25px", position: "sticky", padding: "0 15px"}}>
+    <div className={styles.sidebarContainer}>
 
       <h3>دسته بندی‌ها</h3>
 
@@ -24,16 +24,11 @@ const City = ({city, response}) => {
 
 export const getServerSideProps : GetServerSideProps = async (ctx) => {
 
-  const { city, category } = ctx.params
-  const { baseUrl } = initialContextValues
-
-  const initialResponse = await (await fetch(`${baseUrl}/${city}`)).json()
-  const response = await initialResponse
+  const { city } = ctx.params
 
   return {
     props: {
-      city,
-      response
+      city
     }
   }
 }

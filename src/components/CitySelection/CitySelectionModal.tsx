@@ -1,32 +1,11 @@
 import React, { useState } from "react";
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import { Box, Grid, InputAdornment, TextField } from "@material-ui/core";
-import { Close, Search } from "@material-ui/icons";
 import { allCities, allCitiesCleaned } from "../Sidebar/dataStructured";
 import CitySelectionButton from "../CitySelection/CitySelectionButton";
+import { Button } from "antd";
+import { Input, Modal, Row, Col } from "antd"
+import styles from "./styles.module.scss";
+import { CloseCircleOutlined, SearchOutlined } from "@ant-design/icons"
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    modal: {
-      overflow: "scroll",
-    },
-    paper: {
-      backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(2),
-      width: "52%",
-      margin: "1rem auto",
-      borderRadius: "4px",
-      outline: "none"
-    },
-    searchInput: {
-      width: "100%",
-      fontFamily: "Vazir",
-      marginBottom: "40px",
-    },
-  })
-);
 
 interface PropsType {
   modalOpen: boolean;
@@ -35,24 +14,99 @@ interface PropsType {
 
 const CitySelectionModal = ({ modalOpen, setModalOpen }: PropsType) => {
 
-  const [textFieldValue, setTextFieldValue] = useState("")
+  const [searchInputValue, setSearchInputValue] = useState("")
 
-  const classes = useStyles();
-
-  const textFieldValueHandle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setTextFieldValue(e.target.value)
+  const searchInputValueHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInputValue(e.target.value)
   }
-
-  const handleClose = () => {
-    setModalOpen(false);
-  };
-
-  const handleCitySelection = (cityUrl: string) => {
-    localStorage.setItem("city", cityUrl);
-  };
 
   return (
     <Modal
+      style={{ top: 20 }}
+      visible={modalOpen}
+      closable={false}
+      footer={null}
+      onCancel={() => setModalOpen(false)}
+      width="52%"
+    >
+
+      <div className={styles.headContainer}>
+        <span className={styles.headTitle}>
+          انتخاب شهر
+        </span>
+        <CloseCircleOutlined onClick={() => setModalOpen(false)} className={styles.closeIcon} />
+      </div>
+
+      <Input
+        onChange={searchInputValueHandle} 
+        value={searchInputValue} 
+        className={styles["ant-input-affix-wrapper"]} 
+        placeholder="...جستجوی سریع نام شهرها" size="large" 
+        suffix={<SearchOutlined />} 
+      />
+
+      <h3>شهرهای پر بازدید</h3>
+      
+      <Row>
+        {allCitiesCleaned.topCities.map( ({url, title}) => 
+          <Col span={4}>
+            <CitySelectionButton
+              to={`/s/${url}`}
+              onClick={() => setModalOpen(false)}
+              text={title}
+            />
+          </Col>
+        )}
+        <Col />
+      </Row>
+
+    </Modal>
+  );
+};
+
+export default CitySelectionModal;
+
+
+// const useStyles = makeStyles((theme: Theme) =>
+//   createStyles({
+//     modal: {
+//       overflow: "scroll",
+//     },
+//     paper: {
+//       backgroundColor: theme.palette.background.paper,
+//       padding: theme.spacing(2),
+//       width: "52%",
+//       margin: "1rem auto",
+//       borderRadius: "4px",
+//       outline: "none"
+//     },
+//     searchInput: {
+//       width: "100%",
+//       fontFamily: "Vazir",
+//       marginBottom: "40px",
+//     },
+//   })
+// );
+
+
+// const [textFieldValue, setTextFieldValue] = useState("")
+
+// const classes = useStyles();
+
+// const textFieldValueHandle = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+//   setTextFieldValue(e.target.value)
+// }
+
+// const handleClose = () => {
+//   setModalOpen(false);
+// };
+
+// const handleCitySelection = (cityUrl: string) => {
+//   localStorage.setItem("city", cityUrl);
+// };
+
+
+{/* <Modal
       className={classes.modal}
       open={modalOpen}
       onClose={handleClose}
@@ -130,8 +184,4 @@ const CitySelectionModal = ({ modalOpen, setModalOpen }: PropsType) => {
             )}
           </Grid>
       </div>
-    </Modal>
-  );
-};
-
-export default CitySelectionModal;
+    </Modal> */}

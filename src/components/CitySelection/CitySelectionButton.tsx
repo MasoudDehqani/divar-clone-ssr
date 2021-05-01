@@ -1,21 +1,21 @@
 import React from "react";
-import { Button, styled } from "@material-ui/core";
-import Link from "@material-ui/core/Link";
-import { NavLink, useRouteMatch } from "react-router-dom";
+import Link from "next/link";
+import { Button } from "antd";
+import styles from "./styles.module.scss"
 
 interface CityButtonPropsType {
   isActive: boolean;
 }
 
-const CityButton = styled(Button)({
-  color: ({ isActive }: CityButtonPropsType) => isActive ? "white" : "#a62626",
-  border: "1px solid rgba(166,38,38,.56)",
-  width: "140px",
-  height: "40px",
-  fontFamily: "Vazir",
-  fontWeight: "bold",
-  backgroundColor: ({ isActive }) => (isActive ? "#a62626" : ""),
-});
+// const CityButton = styled(Button)({
+//   color: ({ isActive }: CityButtonPropsType) => isActive ? "white" : "#a62626",
+//   border: "1px solid rgba(166,38,38,.56)",
+//   width: "140px",
+//   height: "40px",
+//   fontFamily: "Vazir",
+//   fontWeight: "bold",
+//   backgroundColor: ({ isActive }) => (isActive ? "#a62626" : ""),
+// });
 
 interface PropsType {
   text: string;
@@ -25,13 +25,15 @@ interface PropsType {
 
 const CitySelectionButton = ({ to, text, onClick }: PropsType) => {
   
-  const isActive = useRouteMatch<{ city: string }>("/:city")?.params.city === to.substr(1);
+  // const isActive = useRouteMatch<{ city: string }>("/:city")?.params.city === to.substr(1);
 
   return (
-    <Link component={NavLink} to={to} underline="none">
-      <CityButton isActive={isActive} onClick={onClick} variant="outlined">
-        {text}
-      </CityButton>
+    <Link href={to}>
+      <a>
+        <Button type="primary" onClick={onClick}>
+          {text}
+        </Button>
+      </a>
     </Link>
   );
 };

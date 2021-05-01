@@ -1,27 +1,20 @@
 import { GetServerSideProps } from 'next'
 import React from 'react'
 import { useDivarContext } from '~components/context/divarContext'
-import { useRouteHistoryContext } from '~components/context/RouteHistoryContextProvider'
 import breadCrumbsHandle from "~components/outsourcing/breadCrumbsHandle"
 import { allCategories } from '~components/Sidebar/dataStructured'
 import Level2Sidebar from '~components/Sidebar/Level2Sidebar'
 import ReturnToAll from '~components/Sidebar/ReturnToAll'
 import SideItem from '~components/Sidebar/SideItem'
+import styles from "./styles.module.scss"
 
 function Category({category, data}) {
 
-  const routeHistory = useRouteHistoryContext()
   const {city} = useDivarContext()
   const breadCrumbs = data.seo_details.bread_crumbs.filter(({url}) => url.includes("/")).map(({url}) => url.split("/")[1]).reverse()
-  console.log(breadCrumbs)
-
-  console.log(data)
-
-  breadCrumbsHandle(data, routeHistory, data.seo_details.bread_crumbs[data.seo_details.bread_crumbs.length - 2].url)
-  console.log(routeHistory)
 
   return (
-    <div style={{width: '260px', height: "fit-content", marginTop: "25px", position: "sticky", padding: "0 15px"}}>
+    <div className={styles.sidebarContainer}>
 
       <h3>دسته بندی‌ها</h3>
 

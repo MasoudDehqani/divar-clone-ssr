@@ -1,29 +1,41 @@
 import React from 'react'
-import { Box } from '@material-ui/core'
-import ChatOutlined from "@material-ui/icons/ChatOutlined"
+import { CommentOutlined } from "@ant-design/icons"
+import { Row, Col } from "antd"
+import styles from "./styles.module.scss"
 
 type WidgetProps = {
-  widgetData: any
+  widgetData: {
+    title: string;
+    description: string;
+    red_text: string;
+    normal_text: string;
+    has_chat: boolean;
+    image: string
+  }
 }
 
 const Widget = React.forwardRef<HTMLDivElement, WidgetProps>(
-  ({widgetData}, ref) => {
+  ({widgetData: {title, description, red_text, normal_text, has_chat, image }}, ref) => {
+
     return (
       <div ref={ref}>
-        <Box p={1} display="flex" justifyContent="space-between" alignItems="center" style={{width: "350px", height: "180px", border: "1px solid rgba(0,0,0,0.2)", borderRadius: "6px", padding: "0 10px"}}>
-          <Box style={{height: "150px"}} width="190px" display="flex" flexDirection="column" justifyContent="space-between" >
-            <span style={{fontWeight: 900}}>{widgetData.title}</span>
-            <Box display="flex" flexDirection="column" justifyContent="space-between">
-              <span style={{color: "grey", fontSize: "0.9rem"}}>{widgetData.description}</span>
-              <Box color="grey" display="flex">
-                {widgetData.red_text && <span style={{color: "red", fontSize: "0.7rem"}}>{widgetData.red_text}</span>}
-                <span style={{color: 'grey', marginRight: "2px", fontSize: "0.7rem"}}>{widgetData.normal_text?.length + widgetData.red_text?.length > 20 ? `${widgetData.normal_text?.substr(0, 22)}...` : widgetData.normal_text}</span>
-                {widgetData.has_chat && <ChatOutlined style={{marginRight: "auto"}} />}
-              </Box>
-            </Box>
-          </Box>
-          <div style={{ width:'150px', height: '150px', backgroundImage: `url(${widgetData.image})`, backgroundSize: "cover", borderRadius: "6px" }}></div>
-        </Box>
+        
+        <Row className={styles.mainWidgetContainer} justify="space-between" align="middle" >
+          <Col className={styles.widgetTexts} >
+            <span className={styles.title}>{title}</span>
+              <div className={styles.info}>
+                <span style={{color: "grey", fontSize: "0.9rem"}}>{description}</span>
+                <Row className={styles.bottomInfo}>
+                  {red_text && <Col className={styles.redText}>{red_text}</Col>}
+                  <Col className={styles.details}>{normal_text?.length + red_text?.length > 20 ? `${normal_text?.substr(0, 22)}...` : normal_text}</Col>
+                  {has_chat && <Col><CommentOutlined className={styles.chatIcon} /></Col>}
+                </Row>
+              </div>
+          </Col>
+
+          <Col className={styles.widgetImage} style={{ backgroundImage: `url(${image})` }} />
+
+        </Row>
       </div>
     )
   }

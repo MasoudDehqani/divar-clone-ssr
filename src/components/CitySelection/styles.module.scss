@@ -1,0 +1,36 @@
+
+.headContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.headTitle {
+  font-weight: bold; 
+  font-size: 1.3rem
+}
+
+.closeIcon {
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.ant-input-affix-wrapper {
+  border-radius: 4px;
+}
+
+.cityButton {
+  color: #a62626;
+  border: 1px solid rgba(166,38,38,.56);
+  width: 140px;
+  height: 40px;
+  font-family: "Vazir";
+  font-weight: bold;
+}
+
+.cityButtonActive {
+  color: white;
+  background-color: #a62626;
+}

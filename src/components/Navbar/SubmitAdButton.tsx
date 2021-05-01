@@ -4,7 +4,7 @@ import styles from "./styles.module.scss"
 
 const SubmitAdButton = () => {
   return (
-    <Button className={styles.submitAdButton}>ثبت آگهی</Button>
+    <Button type="primary" className={styles.submitAdButton}>ثبت آگهی</Button>
   )
 }
 

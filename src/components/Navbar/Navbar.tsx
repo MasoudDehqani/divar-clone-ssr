@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import MobileMenu from './MobileMenu';
-import DesktopNav from './DesktopNav';
 import DivarLogo from './DivarLogo';
 import CitySelectionButton from './CitySelectionButton';
 import CitySelectionModal from '../CitySelection/CitySelectionModal';
@@ -17,22 +15,25 @@ function Navbar() {
   const [modalOpen, setModalOpen] = useState(false)
 
   const citySelectionHandle = () => {
-
+    setModalOpen(true)
   }
 
   return (
-    <Header className={`${styles.header} header`}>
-      <div>
-        <DivarLogo />
-        <CitySelectionButton onClick={citySelectionHandle} />
-      </div>
+    <>
+      <CitySelectionModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+      <Header className={styles.header}>
+        <div>
+          <DivarLogo />
+          <CitySelectionButton onClick={citySelectionHandle} />
+        </div>
 
-      <div className={styles.buttonMenuContainer}>
-        <NavbarMenu>
-          <SubmitAdButton />
-        </NavbarMenu>
-      </div>
-    </Header>
+        <div className={styles.buttonMenuContainer}>
+          <NavbarMenu>
+            <SubmitAdButton />
+          </NavbarMenu>
+        </div>
+      </Header>
+    </>
   )
 }
 

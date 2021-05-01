@@ -8,11 +8,12 @@ import styles from "./styles.module.scss"
 
 const CitySelectionButton = ({onClick} : {onClick: React.MouseEventHandler<HTMLButtonElement>}) => {
 
-  const {data, city} = useDivarContext()
+  const {city} = useDivarContext()
 
   return (
     <Button className={styles.cityButton} icon={<EnvironmentOutlined />} onClick={onClick}>
-      تهران
+      {!city && "انتخاب شهر"}
+      {city && "تهران"}
     </Button>
   )
 }
