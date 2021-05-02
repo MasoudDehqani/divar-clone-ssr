@@ -3,32 +3,33 @@ import { GetServerSideProps } from 'next'
 import { allCategories } from '~components/Sidebar/dataStructured'
 import SideItem from '~components/Sidebar/SideItem'
 import styles from "./styles.module.scss"
+import { useDivarContext } from '~components/context/divarContext'
+import Widgets from '~components/Widgets/Widgets'
+import Sidebar from '~components/Sidebar/Sidebar'
+import breadCrumbsHandle from "~components/outsourcing/breadCrumbsHandle"
 
-const City = ({city}) => {
+const City = ({data, breadCrumbs}) => {
+
   return (
-    <div className={styles.sidebarContainer}>
-
-      <h3>دسته بندی‌ها</h3>
-
-      {allCategories.children.map(({ name, icon, id, slug }) =>
-        <SideItem
-          key={id}
-          linkToGo={`/s/${city}/${slug}`}
-          text={name}
-          Icon={icon}
-        />
-      )}
-    </div>
+    <>
+      <Sidebar breadCrumbs={breadCrumbs} />
+      <Widgets data={data} />
+    </>
   )
 }
 
 export const getServerSideProps : GetServerSideProps = async (ctx) => {
 
   const { city } = ctx.params
+  const dataPromise = (await fetch(`https://api.divar.ir/v8/web-search/${city}`)).json()
+  const data = await dataPromise
+
+  const breadCrumbs = breadCrumbsHandle(data)
 
   return {
     props: {
-      city
+      data,
+      breadCrumbs
     }
   }
 }

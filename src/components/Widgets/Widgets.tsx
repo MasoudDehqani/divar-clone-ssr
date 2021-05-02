@@ -1,55 +1,70 @@
-import { Grid } from '@material-ui/core'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useDivarContext } from '../context/divarContext'
+import { Row, Col } from "antd"
 import Widget from './Widget'
+import { useRouter } from 'next/router'
 
-const Widgets = () => {
+interface DataType {
+  widget_list: string[]
+  seo_details: string[]
+}
 
-  const { data, setData, completeURL } = useDivarContext()
+const Widgets = ({data} : {data: any}) => {
+
+  // const { data, setData, completeURL } = useDivarContext()
+
+  const [ widgetsData, setWidgetsData ] = useState(data)
+  const [ nextPageNumber, setNextPageNumber ] = useState(2)
+
+  useEffect(() => {
+    setWidgetsData(data)
+  }, [data])
+
+  const { baseUrl } = useDivarContext()
+  const { query: { city, category }, asPath } = useRouter()
+  console.log(asPath)
   let observer = useRef(null)
-  let nextPageNumber = data.seo_details?.next[data?.seo_details?.next.length - 1]
+  // let nextPageNumber = data.seo_details?.next[data?.seo_details?.next.length - 1]
+  console.log(nextPageNumber)
   
 
   const lastWidgetRef = useCallback( node => {
-    //@ts-ignore
     if (observer.current) observer.current.disconnect()
-    //@ts-ignore
     observer.current = new IntersectionObserver( ([entry]) => {
       if (entry.isIntersecting) {
         const getData = async () => {
-          const response = await ((await fetch(`${completeURL}${completeURL.includes("?") ? `&page=${nextPageNumber}` : `?page=${nextPageNumber}`}`)).json())          
-          //@ts-ignore
-          setData( prev => ({...prev, widget_list: prev.widget_list.concat(response.widget_list)}))
+          const response = await ((await fetch(`${baseUrl}/${asPath.slice(3)}/${asPath.includes("?") ? `&page=${nextPageNumber}` : `?page=${nextPageNumber}`}`)).json())          
+          setWidgetsData( prev => ({...prev, widget_list: prev.widget_list.concat(response.widget_list)}))
+          setNextPageNumber(nextPageNumber + 1)
         }
         getData()
       }
     })
-    //@ts-ignore
     if (node) observer.current.observe(node)
-  }, [completeURL, nextPageNumber, setData])
+  }, [nextPageNumber])
 
   useEffect(() => {
 
   }, [])
 
   return (
-    <Grid spacing={2} direction="row" container style={{width: "calc(100vw - 280px)", marginTop: "20px"}}>
-      {data.widget_list?.map((widget: any, index: number) => {
-        if (data.widget_list.length === index + 1) {
+    <Row gutter={2} style={{width: "calc(100vw - 280px)", marginTop: "20px", marginRight: "260px"}}>
+      {widgetsData.widget_list?.map((widget: any, index: number) => {
+        if (widgetsData.widget_list.length === index + 1) {
           return(
-            <Grid key={index} item>
+            <Col key={index}>
               <Widget ref={lastWidgetRef} widgetData={widget.data} />
-            </Grid>
+            </Col>
           )
         }
         return (
-          <Grid key={index} item>
+          <Col key={index}>
             <Widget widgetData={widget.data} />
-          </Grid>
+          </Col>
         )
       }
       )}
-    </Grid>
+    </Row>
   )
 }
 

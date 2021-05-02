@@ -5,11 +5,11 @@ import { useDivarContext } from '../src/components/context/divarContext'
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 
-export default function Home({params}) {
+export default function Home() {
 
   const {city} = useDivarContext()
   const router = useRouter()
-  console.log(params)
+  console.log(router)
 
   if (city) {
     router.push(`/s/${city}`)
