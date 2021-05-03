@@ -8,13 +8,16 @@ import Widgets from '~components/Widgets/Widgets'
 import Sidebar from '~components/Sidebar/Sidebar'
 import breadCrumbsHandle from "~components/outsourcing/breadCrumbsHandle"
 import Header from '~components/Header/Header'
+import SearchBar from '~components/Header/Searchbar'
 
-const City = ({data, breadCrumbs}) => {
+const City = ({data, breadCrumbs, title}) => {
+
+  console.log(data)
 
   return (
     <>
       <Sidebar breadCrumbs={breadCrumbs} />
-      <Header categoryText="همه آگهی‌ها" />
+      <Header categoryText={`${title}`} />
       <Widgets data={data} />
     </>
   )
@@ -27,11 +30,13 @@ export const getServerSideProps : GetServerSideProps = async (ctx) => {
   const data = await dataPromise
 
   const breadCrumbs = breadCrumbsHandle(data)
+  const title = data.title
 
   return {
     props: {
       data,
-      breadCrumbs
+      breadCrumbs,
+      title
     }
   }
 }

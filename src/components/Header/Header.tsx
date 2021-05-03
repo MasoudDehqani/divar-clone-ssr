@@ -6,6 +6,7 @@ import { allCategories } from '~components/Sidebar/dataStructured'
 import { useDivarContext } from '~components/context/divarContext'
 import styles from "./styles.module.scss"
 import MenuItemsLevel2 from './MenuItemsLevel2'
+import SearchBar from './Searchbar'
 
 export const Header = ({ categoryText }) => {
 
@@ -36,6 +37,8 @@ export const Header = ({ categoryText }) => {
           {categoryText} <DownOutlined />
         </Button>
       </Dropdown>
+
+      <SearchBar categoryText={`${categoryText}`} />
     </div>
   )
 }
