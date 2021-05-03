@@ -21,7 +21,7 @@ function Navbar() {
   return (
     <>
       <CitySelectionModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      <Header className={styles.header}>
+      <Layout.Header className={styles.header}>
         <div>
           <DivarLogo />
           <CitySelectionButton onClick={citySelectionHandle} />
@@ -32,7 +32,7 @@ function Navbar() {
             <SubmitAdButton />
           </NavbarMenu>
         </div>
-      </Header>
+      </Layout.Header>
     </>
   )
 }

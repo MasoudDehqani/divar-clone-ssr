@@ -1,88 +1,122 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Button from "@material-ui/core/Button"
-import Box from "@material-ui/core/Box"
-import { makeStyles } from '@material-ui/core/styles';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import { ClickAwayListener, TextField } from '@material-ui/core';
-import MenuItemsPaper from './MenuItemsPaper';
-import SuggestionBar from './SuggestionBar';
-import { useHistory, useLocation } from 'react-router';
-import useQuery from "../Hooks/useQuery"
-import { DivarContext, useDivarContext } from '../context/divarContext';
+import React, { useState } from 'react'
+import { Dropdown, Button, Menu } from "antd"
+import { DownOutlined, LeftOutlined } from "@ant-design/icons"
+import Link from "next/link"
+import { allCategories } from '~components/Sidebar/dataStructured'
+import { useDivarContext } from '~components/context/divarContext'
+import styles from "./styles.module.scss"
+import MenuItemsLevel2 from './MenuItemsLevel2'
 
-const useStyles = makeStyles((theme) => ({
-  button: {
-    margin: theme.spacing(1),
-    height: 40,
-    width: 200,
-    fontFamily: "Vazir"
-  },
-  root: {
-    "& > *": {
-      fontFamily: "Vazir"
-    }
-  }
-}));
+export const Header = ({ categoryText }) => {
 
-export const Header = () => {
-
-  const history = useHistory()
-  const { pathname } = useLocation()
-  const query = useQuery()
-
+  const { city } = useDivarContext()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [textFieldValue, setTextFieldValue] = useState(!query.get("q") ? "" : query.get("q"))
-  const [registeredTextFieldValue, setRegisteredTextFieldValue] = useState('')
+  const [menuItemOpen, setMenuItemOpen] = useState({
+    id: 0,
+    isOpen: false
+  })
 
-  const { data } = useDivarContext()
+  const { SubMenu, Item } = Menu
 
-  function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
-    if (e.key === "Enter") {
-      console.log(registeredTextFieldValue)
-      //@ts-ignore
-      setRegisteredTextFieldValue(textFieldValue)
-      if (textFieldValue) {
-        history.push(`${pathname}?q=${textFieldValue}`)
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (registeredTextFieldValue && pathname !== "/" && textFieldValue) {
-      history.push(`${pathname}?q=${registeredTextFieldValue}`)
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [history, pathname])
-
-
-  const classes = useStyles();
-
+  const menu = (
+    <Menu>
+      {allCategories.children.map( ({id, slug, name, children}) =>
+        <SubMenu key={id} title={`${name}`} >
+          <MenuItemsLevel2 itemsToRender={children} />
+        </SubMenu>
+      )}
+    </Menu>
+    
+  )
+  
   return (
-    <Box display="flex" flexDirection="column" width="100%" height="fit-content" mt={13}>
-      <Box>
-        <Button
-          onClick={() => setMenuOpen(!menuOpen)}
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-          endIcon={<ExpandMore />}
-        >
-          {data.title}
+    <div className={styles.headerContainer}>
+      <Dropdown trigger={["click"]} overlay={menu}>
+        <Button>
+          {categoryText} <DownOutlined />
         </Button>
-        <TextField className={classes.root}  onKeyDown={(e) => handleKeyPress(e)} value={textFieldValue} placeholder={`جستجو در ${!data.title ? "" : data.title}`} onChange={(e) => setTextFieldValue(e.target.value)} style={{width: "500px", fontFamily: "Vazir"}} id="outlined-basic" variant="outlined" />
-        {menuOpen && 
-          <ClickAwayListener onClickAway={() => setMenuOpen(false)}>
-            <div onClick={() => setMenuOpen(false)}>
-              <MenuItemsPaper />
-            </div>
-          </ClickAwayListener>}
-        </Box>
-        <Box>
-          <SuggestionBar />
-        </Box>
-      
-    </Box>
+      </Dropdown>
+    </div>
   )
 }
 
 export default Header
+
+      // <Link key={category.id} color="textPrimary" component={RouterLink} underline="none" to={`/${city}/${category.slug}`}>
+      //   <Box  className={classes.root} py={1} display="flex" justifyContent="space-between" alignItems="center" style={{cursor: "pointer"}}>
+      //     <span>{category.name}</span>
+      //     <LeftOutlined />
+      //   </Box>
+      // </Link>
+
+// const useStyles = makeStyles((theme) => ({
+//   button: {
+//     margin: theme.spacing(1),
+//     height: 40,
+//     width: 200,
+//     fontFamily: "Vazir"
+//   },
+//   root: {
+//     "& > *": {
+//       fontFamily: "Vazir"
+//     }
+//   }
+// }));
+
+
+// const history = useHistory()
+//   const { pathname } = useLocation()
+//   const query = useQuery()
+
+//   const [textFieldValue, setTextFieldValue] = useState(!query.get("q") ? "" : query.get("q"))
+//   const [registeredTextFieldValue, setRegisteredTextFieldValue] = useState('')
+
+//   const { data } = useDivarContext()
+
+//   function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
+//     if (e.key === "Enter") {
+//       console.log(registeredTextFieldValue)
+//       //@ts-ignore
+//       setRegisteredTextFieldValue(textFieldValue)
+//       if (textFieldValue) {
+//         history.push(`${pathname}?q=${textFieldValue}`)
+//       }
+//     }
+//   }
+
+//   useEffect(() => {
+//     if (registeredTextFieldValue && pathname !== "/" && textFieldValue) {
+//       history.push(`${pathname}?q=${registeredTextFieldValue}`)
+//     }
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, [history, pathname])
+
+
+//   const classes = useStyles();
+
+//   return (
+//     <Box display="flex" flexDirection="column" width="100%" height="fit-content" mt={13}>
+//       <Box>
+//         <Button
+//           onClick={() => setMenuOpen(!menuOpen)}
+//           variant="contained"
+//           color="secondary"
+//           className={classes.button}
+//           endIcon={<ExpandMore />}
+//         >
+//           {data.title}
+//         </Button>
+//         <TextField className={classes.root}  onKeyDown={(e) => handleKeyPress(e)} value={textFieldValue} placeholder={`جستجو در ${!data.title ? "" : data.title}`} onChange={(e) => setTextFieldValue(e.target.value)} style={{width: "500px", fontFamily: "Vazir"}} id="outlined-basic" variant="outlined" />
+//         {menuOpen && 
+//           <ClickAwayListener onClickAway={() => setMenuOpen(false)}>
+//             <div onClick={() => setMenuOpen(false)}>
+//               <MenuItemsPaper />
+//             </div>
+//           </ClickAwayListener>}
+//         </Box>
+//         <Box>
+//           <SuggestionBar />
+//         </Box>
+      
+//     </Box>
+//   )
