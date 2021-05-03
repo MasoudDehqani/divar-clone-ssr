@@ -13,7 +13,6 @@ const TopLevelSidebar = () => {
   const { routes } = useDivarContext();
   // const {city} = useParams<{city: string}>()
   const {city, category} = useRouter().query
-  console.log(city)
   
 
   return (
@@ -37,7 +36,6 @@ const TopLevelSidebar = () => {
                   routes.topLevel = route;
                   routes.level2 = "";
                   routes.level3 = "";
-                  console.log("123")
                 }}
                 linkToGo={`/s/${city}/${route}`}
                 text={text}

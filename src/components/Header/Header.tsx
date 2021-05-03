@@ -6,9 +6,9 @@ import { allCategories } from '~components/Sidebar/dataStructured'
 import { useDivarContext } from '~components/context/divarContext'
 import styles from "./styles.module.scss"
 import MenuItemsLevel2 from './MenuItemsLevel2'
-import SearchBar from './Searchbar'
+import SearchBar from './SearchBar'
 
-export const Header = ({ categoryText }) => {
+export const Header = ({ title }) => {
 
   const { city } = useDivarContext()
   const [menuOpen, setMenuOpen] = useState(false)
@@ -34,11 +34,11 @@ export const Header = ({ categoryText }) => {
     <div className={styles.headerContainer}>
       <Dropdown trigger={["click"]} overlay={menu}>
         <Button>
-          {categoryText} <DownOutlined />
+          {title} <DownOutlined />
         </Button>
       </Dropdown>
 
-      <SearchBar categoryText={`${categoryText}`} />
+      <SearchBar title={title} />
     </div>
   )
 }
@@ -78,7 +78,6 @@ export default Header
 
 //   function handleKeyPress(e: React.KeyboardEvent<HTMLDivElement>) {
 //     if (e.key === "Enter") {
-//       console.log(registeredTextFieldValue)
 //       //@ts-ignore
 //       setRegisteredTextFieldValue(textFieldValue)
 //       if (textFieldValue) {

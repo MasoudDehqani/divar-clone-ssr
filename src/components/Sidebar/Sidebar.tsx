@@ -9,10 +9,13 @@ import SideItem from './SideItem'
 import TopLevelSidebar from './TopLevelSidebar'
 import styles from "./styles.module.scss"
 
-const Sidebar = ({breadCrumbs} : {breadCrumbs: string[]}) => {
+const Sidebar = ({breadCrumbs, pathname, query} : any) => {
 
   const {city} = useDivarContext();
-  
+  const { asPath } = useRouter()
+  let queries = ""
+  if (asPath.includes("?")) queries = asPath.slice(asPath.indexOf("?"))
+
   return (
     <div className={styles.sidebarContainer}>
         
@@ -25,12 +28,14 @@ const Sidebar = ({breadCrumbs} : {breadCrumbs: string[]}) => {
           {(!breadCrumbs[0] || breadCrumbs[0] === slug) && 
             <SideItem
               key={id}
-              linkToGo={`/s/${city}/${slug}`}
+              pathname={pathname}
+              query={query}
+              slug={slug}
               text={name}
               Icon={icon}
             />
           }
-          <Level2Sidebar subCategories={children} breadCrumbs={breadCrumbs} />
+          <Level2Sidebar subCategories={children} breadCrumbs={breadCrumbs} pathname={pathname} query={query} />
         </>
       )}
   </div>       

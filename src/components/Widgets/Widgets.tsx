@@ -22,20 +22,22 @@ const Widgets = ({data} : {data: any}) => {
 
   const { baseUrl } = useDivarContext()
   const { query: { city, category }, asPath } = useRouter()
-  console.log(asPath)
+  let queries = ""
+  if (asPath.includes("?")) queries = asPath.slice(asPath.indexOf("?"))
   let observer = useRef(null)
   // let nextPageNumber = data.seo_details?.next[data?.seo_details?.next.length - 1]
-  console.log(nextPageNumber)
   
 
   const lastWidgetRef = useCallback( node => {
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver( ([entry]) => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && data.seo_details?.next) {
         const getData = async () => {
-          const response = await ((await fetch(`${baseUrl}/${asPath.slice(3)}/${asPath.includes("?") ? `&page=${nextPageNumber}` : `?page=${nextPageNumber}`}`)).json())          
-          setWidgetsData( prev => ({...prev, widget_list: prev.widget_list.concat(response.widget_list)}))
-          setNextPageNumber(nextPageNumber + 1)
+          const response = await ((await fetch(`${baseUrl}/${asPath.slice(3)}${queries}${asPath.includes("?") ? `&page=${nextPageNumber}` : `?page=${nextPageNumber}`}`)).json())          
+          if (data.seo_details?.next && response.seo_details?.next) {
+            setWidgetsData( prev => ({...prev, widget_list: prev.widget_list.concat(response.widget_list)}))
+            setNextPageNumber(nextPageNumber + 1)
+          }
         }
         getData()
       }

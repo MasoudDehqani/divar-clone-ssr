@@ -1,26 +1,22 @@
 import React, { useState } from 'react'
-import { Select } from "antd"
+import { Input, Select } from "antd"
 import { useRouter } from 'next/router'
 
-const SearchBar = ({ categoryText }) => {
+const SearchBar = ({ title }) => {
 
-  const router = useRouter()
-  const [searchValue, setSearchValue] = useState("")
-  console.log(searchValue)
+  const { pathname, query, push } = useRouter()
+  const { q, ...queryWithoutSearch } = query
+  const [searchValue, setSearchValue] = useState(q)
 
   return (
-    <Select 
-      allowClear 
-      showSearch 
-      showArrow={false} 
-      size="large" 
-      placeholder={`جستجو در ${categoryText}`}
-      searchValue={searchValue}
-      // value={searchValue}
-      // onChange={(v: string) => setSearchValue(v)}
-      onSearch={(v: string) => setSearchValue(v)}
-      // onInputKeyDown={() => router.push(`/s/${city}/${category}`)}
-      open={false}
+    <Input.Search
+      allowClear
+      size="large"
+      placeholder={`جستجو در ${title}`}
+      value={searchValue}
+      onChange={(e) => setSearchValue(e.target.value)}
+      onPressEnter={() => searchValue && push({pathname: pathname, query: {...query, q: searchValue}})}
+      onSearch={() => q && push({pathname: pathname, query: { ...queryWithoutSearch }})}
     />
   )
 }

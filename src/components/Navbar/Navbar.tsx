@@ -56,7 +56,7 @@ export default Navbar
               <Hidden smDown>
                 <DesktopNav />
               </Hidden>
-              <Button onClick={() => console.log('123')} style={{fontFamily: 'inherit', boxShadow: 'none', width: '95px', height: '41px', color: 'white', fontWeight: 'bold', backgroundColor: '#a12727', fontSize: '15px'}} variant="contained">ثبت آگهی</Button>
+              <Button style={{fontFamily: 'inherit', boxShadow: 'none', width: '95px', height: '41px', color: 'white', fontWeight: 'bold', backgroundColor: '#a12727', fontSize: '15px'}} variant="contained">ثبت آگهی</Button>
               
               <Hidden mdUp>
                 <MobileMenu />

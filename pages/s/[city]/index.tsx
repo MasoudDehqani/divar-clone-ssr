@@ -8,16 +8,18 @@ import Widgets from '~components/Widgets/Widgets'
 import Sidebar from '~components/Sidebar/Sidebar'
 import breadCrumbsHandle from "~components/outsourcing/breadCrumbsHandle"
 import Header from '~components/Header/Header'
-import SearchBar from '~components/Header/Searchbar'
+import SearchBar from '~components/Header/SearchBar'
+import { useRouter } from 'next/router'
+import queryHandle from '~components/outsourcing/queryHandle'
 
 const City = ({data, breadCrumbs, title}) => {
 
-  console.log(data)
+  const { pathname, query } = useRouter()
 
   return (
     <>
-      <Sidebar breadCrumbs={breadCrumbs} />
-      <Header categoryText={`${title}`} />
+      <Sidebar breadCrumbs={breadCrumbs} pathname={pathname} query={query} />
+      <Header title={`${title}`} />
       <Widgets data={data} />
     </>
   )
@@ -25,8 +27,9 @@ const City = ({data, breadCrumbs, title}) => {
 
 export const getServerSideProps : GetServerSideProps = async (ctx) => {
 
-  const { city } = ctx.params
-  const dataPromise = (await fetch(`https://api.divar.ir/v8/web-search/${city}`)).json()
+  const { params: {city}, query, resolvedUrl } = ctx
+
+  const dataPromise = (await fetch(`https://api.divar.ir/v8/web-search/${resolvedUrl.slice(3)}`)).json()
   const data = await dataPromise
 
   const breadCrumbs = breadCrumbsHandle(data)
@@ -36,7 +39,7 @@ export const getServerSideProps : GetServerSideProps = async (ctx) => {
     props: {
       data,
       breadCrumbs,
-      title
+      title,
     }
   }
 }

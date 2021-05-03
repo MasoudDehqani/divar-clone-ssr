@@ -11,12 +11,14 @@ interface SubCategoriesType {
   level2SubCategories: any
 }
 
-const Level2Sidebar = ({ subCategories, breadCrumbs } : any) => {
+const Level2Sidebar = ({ subCategories, breadCrumbs, pathname, query } : any) => {
 
   const {city} = useDivarContext();
-  const {category} = useRouter().query
+  const { query: { category }, asPath } = useRouter()
+  let queries = ""
+  if (asPath.includes("?")) queries = asPath.slice(asPath.indexOf("?"))
 
-  console.log(breadCrumbs[1])
+  
 
   return (
     <List style={{marginRight: "35px"}}>
@@ -24,14 +26,16 @@ const Level2Sidebar = ({ subCategories, breadCrumbs } : any) => {
         <>
           {(category === parent || slug === breadCrumbs[1]) && 
             <>
-            <div key={slug}>
-              <SideItem
-                linkToGo={`/s/${city}/${slug}`}
-                text={name}
-                style={{fontWeight: breadCrumbs[1] === slug ? "bold" : ""}}
-              />
-            </div>
-            <Level3Sidebar breadCrumbs={breadCrumbs} parentSlug={parent} level2Subcategories={children} />
+              <div key={slug}>
+                <SideItem
+                  slug={slug}
+                  pathname={pathname}
+                  query={query}
+                  text={name}
+                  style={{fontWeight: breadCrumbs[1] === slug ? "bold" : ""}}
+                />
+              </div>
+              <Level3Sidebar breadCrumbs={breadCrumbs} parentSlug={parent} level2Subcategories={children} pathname={pathname} query={query} />
             </>
           }
         </>

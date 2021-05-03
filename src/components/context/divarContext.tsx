@@ -1,15 +1,16 @@
 import React, { createContext, useContext } from 'react'
 import { useRouter } from "next/router"
 import initialContextValues, {ContextType} from "./initialContextValues"
-import localStorageHandle from "./localStorageHandle"
+import cookieHandle from "./cookieHandle"
 
 export const DivarContext = createContext<ContextType>(initialContextValues)
 export const useDivarContext = () => useContext(DivarContext)
+export let cityForServerSide: string | string[] = ""
 
 const DivarContextProvider = ({ children }) => {
 
   let { query: {city} } = useRouter()
-  city = localStorageHandle(city)
+  city = cookieHandle(city)
 
   const { baseUrl } = initialContextValues
   
