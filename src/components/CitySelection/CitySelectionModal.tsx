@@ -51,7 +51,7 @@ const CitySelectionModal = ({ modalOpen, setModalOpen }: PropsType) => {
         {allCitiesCleaned.topCities.map( ({url, title}) => 
           <Col span={4}>
             <CitySelectionButton
-              to={`/s/${url}`}
+              to={url}
               onClick={() => setModalOpen(false)}
               text={title}
             />

@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "antd";
 import styles from "./styles.module.scss"
+import { useRouter } from "next/router";
 
 interface CityButtonPropsType {
   isActive: boolean;
@@ -25,10 +26,10 @@ interface PropsType {
 
 const CitySelectionButton = ({ to, text, onClick }: PropsType) => {
   
-  // const isActive = useRouteMatch<{ city: string }>("/:city")?.params.city === to.substr(1);
+  const { pathname, query } = useRouter()
 
   return (
-    <Link href={to}>
+    <Link href={{pathname, query: {...query, city: to} }}>
       <a>
         <Button type="primary" onClick={onClick}>
           {text}
