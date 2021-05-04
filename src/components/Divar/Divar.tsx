@@ -1,32 +1,30 @@
-import React, { useContext } from 'react'
-import Navbar from "../Navbar/Navbar"
-import { DivarContext, useDivarContext } from "../context/divarContext"
-import CitySelectionPage from '../CitySelection/CitySelectionPage'
-import Main from '../Main/Main'
-import { Layout, Menu, Breadcrumb, ConfigProvider } from 'antd';
-import Sidebar from '../Sidebar/Sidebar'
-
+import React, { useContext } from "react";
+import Navbar from "../Navbar/Navbar";
+import { DivarContext, useDivarContext } from "../context/DivarContextProvider";
+import CitySelectionPage from "../CitySelection/CitySelectionPage";
+import Main from "../Main/Main";
+import { Layout, Menu, Breadcrumb, ConfigProvider } from "antd";
+import Sidebar from "../Sidebar/Sidebar";
 
 function Divar() {
-
   const { SubMenu } = Menu;
   const { Header, Content, Sider } = Layout;
-  
-  const { status, city } = useDivarContext()
+
+  const { status, city } = useDivarContext();
 
   // if (!city) {
   //   return <h1>انتخاب شهر</h1>
   // }
-  
+
   // if (!status) {
   //   return <h1>Not Found</h1>
   // }
-  
+
   return (
     <Layout>
-          <Navbar />
-          <Sidebar />
-          {/* <Layout>
+      <Navbar />
+      <Sidebar />
+      {/* <Layout>
             <Sider width={200} className="site-layout-background">
               <Menu
                 mode="inline"
@@ -72,8 +70,8 @@ function Divar() {
               </Content>
             </Layout>
           </Layout> */}
-        </Layout>
-  )
+    </Layout>
+  );
 }
 
-export default Divar
+export default Divar;
