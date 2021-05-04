@@ -11,7 +11,7 @@ export default function cookieHandle(city: string | string[]) {
 
     city = localStorage.getItem("city")
     console.log(city)
-    document.cookie = `city=${city}`
+    if (city) document.cookie = `city=${city}`
     return city
   }
 }
