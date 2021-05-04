@@ -11,39 +11,36 @@ interface DataType {
 
 const Widgets = ({data} : {data: any}) => {
 
-  // const { data, setData, completeURL } = useDivarContext()
-
   const [ widgetsData, setWidgetsData ] = useState(data)
   const [ nextPageNumber, setNextPageNumber ] = useState(2)
+  // console.log(widgetsData)
 
   useEffect(() => {
     setWidgetsData(data)
   }, [data])
 
   const { baseUrl } = useDivarContext()
-  const { query: { city, category }, asPath } = useRouter()
-  let queries = ""
-  if (asPath.includes("?")) queries = asPath.slice(asPath.indexOf("?"))
-  let observer = useRef(null)
-  // let nextPageNumber = data.seo_details?.next[data?.seo_details?.next.length - 1]
-  
+  const { asPath } = useRouter()
 
-  const lastWidgetRef = useCallback( node => {
+  let observer = useRef(null)
+  
+  const lastWidgetRef = useCallback(node => {
     if (observer.current) observer.current.disconnect()
     observer.current = new IntersectionObserver( ([entry]) => {
-      if (entry.isIntersecting && data.seo_details?.next) {
+      if (entry.isIntersecting && widgetsData.seo_details?.next) {
         const getData = async () => {
-          const response = await ((await fetch(`${baseUrl}/${asPath.slice(3)}${queries}${asPath.includes("?") ? `&page=${nextPageNumber}` : `?page=${nextPageNumber}`}`)).json())          
-          if (data.seo_details?.next && response.seo_details?.next) {
-            setWidgetsData( prev => ({...prev, widget_list: prev.widget_list.concat(response.widget_list)}))
-            setNextPageNumber(nextPageNumber + 1)
-          }
+          const res = await fetch(`${baseUrl}/${asPath.slice(3)}${asPath.includes("?") ? `&page=${nextPageNumber}` : `?page=${nextPageNumber}`}`);
+          console.log(res)
+          const response = await res.json()
+          console.log(response)
+          setWidgetsData( prev => ({...prev, widget_list: prev.widget_list.concat(response.widget_list)}))
+          setNextPageNumber(nextPageNumber + 1)
         }
         getData()
       }
     })
     if (node) observer.current.observe(node)
-  }, [nextPageNumber])
+  }, [nextPageNumber, baseUrl, asPath, widgetsData])
 
   useEffect(() => {
 
