@@ -50,7 +50,7 @@ const Widgets = ({ data }: { data: any }) => {
       });
       if (node) observer.current.observe(node);
     },
-    [nextPageNumber, baseUrl, asPath, widgetsData]
+    [widgetsData.seo_details.next, baseUrl, asPath, nextPageNumber]
   );
 
   return (

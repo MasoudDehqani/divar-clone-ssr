@@ -12,12 +12,14 @@ interface PropsType {
   onClick?: (React.MouseEventHandler<HTMLAnchorElement> & React.MouseEventHandler<HTMLSpanElement>) | undefined
 }
 
-const SideItem = ( { Icon, text, onClick, style, slug, query } : any ) => {
+const SideItem = ( { Icon, text, style, slug } : any ) => {
+
+  const { query } = useRouter()
 
   return (
     <Link href={{ pathname: `/s/[city]/[category]`, query: {...query, category: slug } }}>
       <a>
-        <List.Item style={style} onClick={onClick}>
+        <List.Item style={style} >
           <div style={{display: "flex", width: "100%"}}>
             {Icon && <Icon />}
             <span style={{marginRight: '10px'}}>{text}</span>

@@ -8,20 +8,9 @@ interface PropsType {
   subcategoryText: string;
 }
 
-const Level3Sidebar = ({
-  level2Subcategories,
-  breadCrumbs,
-  parentSlug,
-  pathname,
-  query,
-}: any) => {
-  const { city } = useDivarContext();
-  const {
-    query: { category },
-    asPath,
-  } = useRouter();
-  let queries = "";
-  if (asPath.includes("?")) queries = asPath.slice(asPath.indexOf("?"));
+const Level3Sidebar = ({ level2Subcategories, breadCrumbs }: any) => {
+
+  const { query: { category } } = useRouter();
 
   return (
     <div style={{ marginRight: "23px" }}>
@@ -31,8 +20,6 @@ const Level3Sidebar = ({
             <SideItem
               key={slug}
               slug={slug}
-              pathname={pathname}
-              query={query}
               text={name}
               style={{
                 color: category === slug ? "red" : "",

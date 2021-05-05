@@ -1,23 +1,15 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import { allCategories } from "~components/Sidebar/dataStructured";
-import SideItem from "~components/Sidebar/SideItem";
-import styles from "./styles.module.scss";
-import { useDivarContext } from "~components/context/DivarContextProvider";
 import Widgets from "~components/Widgets/Widgets";
 import Sidebar from "~components/Sidebar/Sidebar";
 import breadCrumbsHandle from "~components/outsourcing/breadCrumbsHandle";
 import Header from "~components/Header/Header";
-import SearchBar from "~components/Header/SearchBar";
-import { useRouter } from "next/router";
-import queryHandle from "~components/outsourcing/queryHandle";
 
 const City = ({ data, breadCrumbs, title }) => {
-  const { pathname, query } = useRouter();
 
   return (
     <>
-      <Sidebar breadCrumbs={breadCrumbs} pathname={pathname} query={query} />
+      <Sidebar breadCrumbs={breadCrumbs} />
       <Header title={`${title}`} />
       <Widgets data={data} />
     </>
@@ -25,11 +17,7 @@ const City = ({ data, breadCrumbs, title }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const {
-    params: { city },
-    query,
-    resolvedUrl,
-  } = ctx;
+  const { resolvedUrl } = ctx;
 
   const dataPromise = (
     await fetch(`https://api.divar.ir/v8/web-search/${resolvedUrl.slice(3)}`)

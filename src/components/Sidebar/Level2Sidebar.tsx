@@ -11,19 +11,9 @@ interface SubCategoriesType {
   level2SubCategories: any;
 }
 
-const Level2Sidebar = ({
-  subCategories,
-  breadCrumbs,
-  pathname,
-  query,
-}: any) => {
-  const { city } = useDivarContext();
-  const {
-    query: { category },
-    asPath,
-  } = useRouter();
-  let queries = "";
-  if (asPath.includes("?")) queries = asPath.slice(asPath.indexOf("?"));
+const Level2Sidebar = ({ subCategories, breadCrumbs }: any) => {
+
+  const { query: { category } } = useRouter();
 
   return (
     <List style={{ marginRight: "35px" }}>
@@ -34,8 +24,6 @@ const Level2Sidebar = ({
               <div key={slug}>
                 <SideItem
                   slug={slug}
-                  pathname={pathname}
-                  query={query}
                   text={name}
                   style={{ fontWeight: breadCrumbs[1] === slug ? "bold" : "" }}
                 />
@@ -44,8 +32,6 @@ const Level2Sidebar = ({
                 breadCrumbs={breadCrumbs}
                 parentSlug={parent}
                 level2Subcategories={children}
-                pathname={pathname}
-                query={query}
               />
             </>
           )}
