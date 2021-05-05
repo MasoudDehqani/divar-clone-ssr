@@ -16,9 +16,9 @@ interface DataType {
 }
 
 const Widgets = ({ data }: { data: any }) => {
+
   const [widgetsData, setWidgetsData] = useState(data);
   const [nextPageNumber, setNextPageNumber] = useState(2);
-  // console.log(widgetsData)
 
   useEffect(() => {
     setWidgetsData(data);
@@ -35,16 +35,10 @@ const Widgets = ({ data }: { data: any }) => {
       observer.current = new IntersectionObserver(([entry]) => {
         if (entry.isIntersecting && widgetsData.seo_details?.next) {
           const getData = async () => {
-            const res = await fetch(
-              `${baseUrl}/${asPath.slice(3)}${
-                asPath.includes("?")
-                  ? `&page=${nextPageNumber}`
-                  : `?page=${nextPageNumber}`
-              }`
-            );
-            console.log(res);
+            const nextPageUrl = `${baseUrl}/${asPath.slice(3)}${asPath.includes("?") ? "&" : "?"}${`page=${nextPageNumber}`}`
+            const res = await fetch(nextPageUrl);
             const response = await res.json();
-            console.log(response);
+            
             setWidgetsData((prev) => ({
               ...prev,
               widget_list: prev.widget_list.concat(response.widget_list),
@@ -59,13 +53,10 @@ const Widgets = ({ data }: { data: any }) => {
     [nextPageNumber, baseUrl, asPath, widgetsData]
   );
 
-  useEffect(() => {}, []);
-
   return (
     <Row
-      gutter={2}
+      gutter={[16, 16]}
       style={{
-        width: "calc(100vw - 280px)",
         marginTop: "20px",
         marginRight: "260px",
       }}

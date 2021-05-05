@@ -7,13 +7,12 @@ import { useRouter } from "next/router";
 import { cityForServerSide } from "~components/context/DivarContextProvider";
 
 export default function Home() {
-  console.log("Home")
+  
   return <h1>انتخاب شهر</h1>;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { city } = ctx.req.cookies;
-  console.log(city);
 
   if (city) {
     return {

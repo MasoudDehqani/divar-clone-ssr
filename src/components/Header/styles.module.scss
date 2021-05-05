@@ -1,11 +1,51 @@
 
 .headerContainer {
   margin-right: 260px;
+  margin-top: 28px;
+}
+
+.dropdown {
+  width: 170px;
+  height: 48px;
+  padding: 7px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  background-color: rgba(0,0,0,0.1);
+
+  &:hover {
+
+  }
+}
+
+.popupMenu {
+
+  top: 140px !important;
+
+  ul {
+    width: 600px !important;
+    height: 550px !important;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;    
+  }
+}
+
+.menu {
+  padding: 7px 0;
+
+  div {
+    display: flex;
+
+    span {
+      margin-right: auto;
+      position: relative !important;
+    }
+  }
 }
 
 .submenu {
-  width: 450px; 
-  height: 100px; 
   display: flex; 
   flex-direction: column; 
   margin-bottom: 16px; 

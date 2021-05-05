@@ -21,7 +21,7 @@ export const Header = ({ title }) => {
   const menu = (
     <Menu>
       {allCategories.children.map(({ id, slug, name, children }) => (
-        <SubMenu key={id} title={`${name}`}>
+        <SubMenu popupClassName={styles.popupMenu} className={styles.menu} key={id} title={`${name}`}>
           <MenuItemsLevel2 itemsToRender={children} />
         </SubMenu>
       ))}
@@ -30,7 +30,7 @@ export const Header = ({ title }) => {
 
   return (
     <div className={styles.headerContainer}>
-      <Dropdown trigger={["click"]} overlay={menu}>
+      <Dropdown className={styles.dropdown} trigger={["click"]} overlay={menu}>
         <Button>
           {title} <DownOutlined />
         </Button>

@@ -27,9 +27,9 @@ const Level2Sidebar = ({
 
   return (
     <List style={{ marginRight: "35px" }}>
-      {subCategories.map(({ name, slug, children, parent }) => (
+      {subCategories.map(({ name, slug, children, parent }, index, array) => (
         <>
-          {(category === parent || slug === breadCrumbs[1]) && (
+          {((category === parent || slug === breadCrumbs[1]) && !(index === array.indexOf(array[array.length - 1]))) && (
             <>
               <div key={slug}>
                 <SideItem

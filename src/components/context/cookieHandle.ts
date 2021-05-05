@@ -10,7 +10,7 @@ export default function cookieHandle(city: string | string[]) {
     }
 
     city = localStorage.getItem("city")
-    console.log(city)
+    
     if (city) document.cookie = `city=${city}; max-age=31536000`
     return city
   }

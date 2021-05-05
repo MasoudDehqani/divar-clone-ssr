@@ -11,7 +11,6 @@ const DivarContextProvider = ({ children }) => {
 
   let { query: { city } } = useRouter();
 
-  console.log("context")
   city = cookieHandle(city);
 
   const { baseUrl } = initialContextValues;

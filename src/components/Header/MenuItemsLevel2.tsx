@@ -1,38 +1,33 @@
 import React from "react";
-// import { Box, Link } from '@material-ui/core'
-// import { Link as RouterLink, useParams } from "react-router-dom"
 import styles from "./styles.module.scss";
-import { useDivarContext } from "~components/context/DivarContextProvider";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 function MenuItemsLevel2({ itemsToRender }: { itemsToRender: any }) {
-  const { city } = useDivarContext();
+
+  const { pathname, query } = useRouter()
 
   return itemsToRender.map((subcategory: any, index: number, array: any) => (
-    <div key={subcategory.id} className={styles.submenu}>
-      <Link href={`/s/${city}/${subcategory.slug}`}>
+    <div key={subcategory.id} className={styles.submenu} >
+      <Link href={{pathname: "/s/[city]/[category]", query: {...query, category: subcategory.slug}}}>
         <a>
-          {index === array.indexOf(array[array.length - 1]) ? (
-            <span
-              style={{
-                color: "red",
-                position: "absolute",
-                bottom: "15px",
-                left: "15px",
-              }}
+          <span
+            style={index === array.indexOf(array[array.length - 1]) ? {
+              color: "red",
+              position: "absolute",
+              bottom: "15px",
+              left: "15px",
+            } : null}
             >
-              {subcategory.name}
-            </span>
-          ) : (
-            <span>{subcategory.name}</span>
-          )}
+            {subcategory.name}
+          </span>  
         </a>
       </Link>
 
       {subcategory.children.map((subcategoryLevel3: any) => (
         <Link
           key={subcategoryLevel3.id}
-          href={`/s/${city}/${subcategoryLevel3.slug}`}
+          href={{pathname: "/s/[city]/[category]", query: {...query, category: subcategory.slug}}}
         >
           <a>
             <span style={{ fontSize: "0.8rem" }}>{subcategoryLevel3.name}</span>

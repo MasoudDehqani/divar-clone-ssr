@@ -8,7 +8,7 @@ import "../styles/globals.css";
 import Navbar from "../src/components/Navbar/Navbar";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  console.log("_app")
+  
   return (
     <DivarContextProvider>
       <ConfigProvider locale={faIR} direction="rtl">

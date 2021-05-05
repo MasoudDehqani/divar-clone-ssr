@@ -25,9 +25,9 @@ const Level3Sidebar = ({
 
   return (
     <div style={{ marginRight: "23px" }}>
-      {level2Subcategories.map(({ name, slug, parent }) => (
+      {level2Subcategories.map(({ name, slug, parent }, index, array) => (
         <>
-          {(category === parent || breadCrumbs[1] === parent) && (
+          {((category === parent || breadCrumbs[1] === parent) && !(index === array.indexOf(array[array.length - 1]))) && (
             <SideItem
               key={slug}
               slug={slug}
